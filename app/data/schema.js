@@ -1,6 +1,7 @@
 'use strict'
 
 const { makeExecutableSchema } = require('graphql-tools')
+const resolvers = require('./resolvers')
 
 // Defining the Schema using GraphQL SDL
 const typeDefs = `
@@ -18,4 +19,19 @@ const typeDefs = `
     slug: String!
     user: User!
   }
+
+  type Query {
+    allUsers: [User]
+    fetchUser(id: Int!): User
+    allPosts: [Post]
+    fetchPost(id: Int!): Post
+  }
+  
+  type Mutation {
+    createUser(username: String!, email: String!, password: String!): User
+    login(email: String!, password: String!): String
+    addPost(title: String!, content: String!): Post
+  }
 `
+
+module.exports = makeExecutableSchema({ typeDefs, resolvers })
